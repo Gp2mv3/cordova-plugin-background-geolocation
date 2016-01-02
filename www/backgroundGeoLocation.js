@@ -22,7 +22,8 @@ var backgroundGeoLocation = {
      */
     service: {
         ANDROID_DISTANCE_FILTER: 0,
-        ANDROID_FUSED_LOCATION: 1
+        ANDROID_FUSED_LOCATION: 1,
+        ANDROID_FUSED_PRECISE_LOCATION: 1
     },
 
     accuracy: {

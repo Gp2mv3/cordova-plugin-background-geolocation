@@ -81,20 +81,25 @@ public class SQLiteLocationDAO implements LocationDAO {
   }
 
   public boolean persistLocation(LocationProxy location) {
-    SQLiteDatabase db = new LocationOpenHelper(context).getWritableDatabase();
-    db.beginTransaction();
-    ContentValues values = getContentValues(location);
-    long rowId = db.insert(LocationEntry.TABLE_NAME, LocationEntry.COLUMN_NAME_NULLABLE, values);
-    Log.d(TAG, "After insert, rowId = " + rowId);
-    db.setTransactionSuccessful();
-    db.endTransaction();
-    db.close();
-    if (rowId > -1) {
-      // location.setId(rowId);
-      return true;
-    } else {
-      return false;
+    try{
+      SQLiteDatabase db = new LocationOpenHelper(context).getWritableDatabase();
+      db.beginTransaction();
+      ContentValues values = getContentValues(location);
+      long rowId = db.insert(LocationEntry.TABLE_NAME, LocationEntry.COLUMN_NAME_NULLABLE, values);
+      Log.d(TAG, "After insert, rowId = " + rowId);
+      db.setTransactionSuccessful();
+      db.endTransaction();
+      db.close();
+      if (rowId > -1) {
+        // location.setId(rowId);
+        return true;
+      }
     }
+    catch(Exception e) {
+      Log.w(TAG, "Error SQLite Insert");
+    }
+    
+    return false;
   }
 
   public void deleteLocation(Integer locationId) {

@@ -55,13 +55,15 @@ public class FusedLocationService extends AbstractLocationService implements Goo
         registerReceiver(detectedActivitiesReceiver, new IntentFilter(Constant.DETECTED_ACTIVITY_UPDATE));
 
         startRecording();
+
     }
 
     @Override
     public void onLocationChanged(Location location) {
         Log.d(TAG, "- onLocationChanged" + location.toString());
 
-        if (lastActivity.getType() == DetectedActivity.STILL) {
+        //TODO: TEST HERE
+        if (lastActivity.getType() == DetectedActivity.STILL && lastLocation.getAccuracy() < 200 && lastLocation.getAccuracy() > location.getAccuracy()) {
             stopTracking();
         }
 
@@ -96,13 +98,24 @@ public class FusedLocationService extends AbstractLocationService implements Goo
     public void startTracking() {
         if (isTracking) { return; }
 
+
         Integer priority = translateDesiredAccuracy(config.getDesiredAccuracy());
         LocationRequest locationRequest = LocationRequest.create()
                 .setPriority(priority) // this.accuracy
                 .setFastestInterval(config.getFastestInterval())
                 .setInterval(config.getInterval());
                 // .setSmallestDisplacement(config.getStationaryRadius());
+/*
+        LocationRequest locationRequestNoPower = LocationRequest.create()
+                .setPriority(LocationRequest.PRIORITY_NO_POWER) // this.accuracy
+                .setFastestInterval(config.getFastestInterval())
+                .setInterval(config.getInterval());
+*/
+
+        onLocationChanged(LocationServices.FusedLocationApi.getLastLocation(googleApiClient));
+//        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequestNoPower, this);
         LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
+
         isTracking = true;
         Log.d(TAG, "- locationUpdateReceiver NOW RECORDING!!!!!!!!!! with priority: "
             + priority + ", fastestInterval: " + config.getFastestInterval() + ", interval: " + config.getInterval() + ", smallestDisplacement: " + config.getStationaryRadius());

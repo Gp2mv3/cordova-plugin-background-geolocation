@@ -22,8 +22,7 @@ var backgroundGeoLocation = {
      */
     service: {
         ANDROID_DISTANCE_FILTER: 0,
-        ANDROID_FUSED_LOCATION: 1,
-        ANDROID_FUSED_PRECISE_LOCATION: 1
+        ANDROID_FUSED_LOCATION: 1
     },
 
     accuracy: {
@@ -50,6 +49,8 @@ var backgroundGeoLocation = {
             notificationIcon      = config.notificationIcon,
             notificationIconColor = config.notificationIconColor,
             activityType          = config.activityType || 'OTHER',
+            url          = config.url || 'http://localhost',
+
             stopOnTerminate       = config.stopOnTerminate || false,
             locationService       = config.locationService || this.service.ANDROID_DISTANCE_FILTER,
             //Android FusedLocation config
@@ -69,6 +70,7 @@ var backgroundGeoLocation = {
                 notificationTitle,
                 notificationText,
                 activityType,
+                url,
                 stopOnTerminate,
                 notificationIcon,
                 notificationIconColor,

@@ -232,8 +232,8 @@ public class BackgroundGeolocationPlugin extends CordovaPlugin {
 
         locationServiceIntent = new Intent(activity, serviceProviderClass);
         locationServiceIntent.addFlags(Intent.FLAG_FROM_BACKGROUND);
-        // locationServiceIntent.putExtra("config", config.toParcel().marshall());
-        locationServiceIntent.putExtra("config", config);
+        locationServiceIntent.putExtra("config", config.toParcel().marshall());
+        //locationServiceIntent.putExtra("config", config);
         isEnabled = true;
 
         return activity.startService(locationServiceIntent);

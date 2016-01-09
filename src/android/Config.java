@@ -15,6 +15,9 @@ import org.json.JSONException;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+
+import android.util.Log;
+
 /**
  * Config class
  */
@@ -28,6 +31,8 @@ public class Config implements Parcelable
     private String notificationTitle = "Background tracking";
     private String notificationText = "ENABLED";
     private String activityType; //not used
+    private String url;
+
     private Boolean stopOnTerminate = false;
     private String notificationIcon;
     private String notificationIconColor;
@@ -50,6 +55,8 @@ public class Config implements Parcelable
         out.writeString(getNotificationTitle());
         out.writeString(getNotificationText());
         out.writeString(getActivityType());
+        out.writeString(getURL());
+
         out.writeValue(getStopOnTerminate());
         out.writeString(getNotificationIcon());
         out.writeString(getNotificationIconColor());
@@ -83,6 +90,7 @@ public class Config implements Parcelable
         setNotificationTitle(in.readString());
         setNotificationText(in.readString());
         setActivityType(in.readString());
+        setURL(in.readString());
         setStopOnTerminate((Boolean) in.readValue(null));
         setNotificationIcon(in.readString());
         setNotificationIconColor(in.readString());
@@ -236,6 +244,15 @@ public class Config implements Parcelable
         return activityType;
     }
 
+    public void setURL(String url) {
+        this.url = url;
+    }
+
+    public String getURL() {
+        return url;
+    }
+
+
     @Override
     public String toString () {
         return new StringBuffer()
@@ -253,6 +270,8 @@ public class Config implements Parcelable
                 .append(" interval: "              + getInterval())
                 .append(" fastestInterval: "       + getFastestInterval())
                 .append(" activitiesInterval: "    + getActivitiesInterval())
+                .append(" url: "                   + getURL())
+
                 .toString();
     }
 
@@ -271,6 +290,9 @@ public class Config implements Parcelable
     }
 
     public static Config fromJSONArray (JSONArray data) throws JSONException {
+
+      Log.d("TAGJSON", "JSONArray: "+data.toString());
+
         Config config = new Config();
         config.setStationaryRadius((float) data.getDouble(0));
         config.setDistanceFilter(data.getInt(1));
@@ -280,13 +302,14 @@ public class Config implements Parcelable
         config.setNotificationTitle(data.getString(5));
         config.setNotificationText(data.getString(6));
         config.setActivityType(data.getString(7));
-        config.setStopOnTerminate(data.getBoolean(8));
-        config.setNotificationIcon(data.getString(9));
-        config.setNotificationIconColor(data.getString(10));
-        config.setServiceProvider(data.getInt(11));
-        config.setInterval(data.getInt(12));
-        config.setFastestInterval(data.getInt(13));
-        config.setActivitiesInterval(data.getInt(14));
+        config.setURL(data.getString(8));
+        config.setStopOnTerminate(data.getBoolean(9));
+        config.setNotificationIcon(data.getString(10));
+        config.setNotificationIconColor(data.getString(11));
+        config.setServiceProvider(data.getInt(12));
+        config.setInterval(data.getInt(13));
+        config.setFastestInterval(data.getInt(14));
+        config.setActivitiesInterval(data.getInt(15));
 
         return config;
     }

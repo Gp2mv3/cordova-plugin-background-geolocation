@@ -31,7 +31,7 @@ import com.marianhello.cordova.bgloc.Constant;
 
 public class FusedPreciseLocationService extends AbstractLocationService implements GoogleApiClient.ConnectionCallbacks,
     GoogleApiClient.OnConnectionFailedListener, LocationListener {
-    private static final String TAG = "FusedLocationService";
+    private static final String TAG = "FusedPreciseLocationService";
 
     private PowerManager.WakeLock wakeLock;
     private GoogleApiClient googleApiClient;
